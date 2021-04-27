@@ -1,0 +1,68 @@
+---
+# some variables are overriden in the different deployment type.
+php_fpm_deployment_platform: "production"
+
+# Default PHP version to install on Debian-based OSes.
+php_default_version: "7.2"
+
+# Whether to install recommended packages. Used only for Debian/Ubuntu.
+php_packages_state: "present"
+php_install_recommends: false
+
+# PHP-FPM pool configuration.
+php_fpm_custom_pool: true
+php_fpm_pool_listen: "/run/php/php{{ php_default_version }}-fpm.sock"
+php_fpm_listen_allowed_clients: "127.0.0.1"
+php_fpm_pm_max_children: 5
+php_fpm_pm_start_servers: 2
+php_fpm_pm_min_spare_servers: 1
+php_fpm_pm_max_spare_servers: 3
+pm_process_max_requests: 500 
+
+# OpCache settings.
+php_opcache_zend_extension: "opcache.so"
+php_opcache_enable: "1"
+php_opcache_enable_cli: "0"
+php_opcache_memory_consumption: "128"
+php_opcache_interned_strings_buffer: "8"
+php_opcache_max_accelerated_files: "10000"
+php_opcache_max_wasted_percentage: "5"
+php_opcache_validate_timestamps: "1"
+# avoid collision for include files
+php_opcache_revalidate_path: "1"
+php_opcache_revalidate_freq: "2"
+php_opcache_max_file_size: "0"
+php_opcache_blacklist_filename: ""
+
+# If this is set to false, none of the following options will have any effect.
+# Any and all changes to /etc/php.ini will be your responsibility.
+php_use_managed_ini: true
+# ;Language Options;
+php_short_open_tag: "Off"
+php_output_buffering: "4096"
+# ; Miscellaneous ;
+php_expose_php: "On"
+# ; Resource Limits ;
+php_max_execution_time: "30"
+php_max_input_time: "60"
+php_max_input_vars: "1000"
+php_memory_limit: "128M"
+# ; Error handling and logging ;
+php_error_reporting: "E_ALL & ~E_DEPRECATED & ~E_STRICT"
+php_display_errors: "Off"
+php_display_startup_errors: "Off"
+# ; Data Handling ;
+php_post_max_size: "8M"
+# ; File Uploads ;
+php_file_uploads: "Off"
+php_upload_max_filesize: "2M"
+php_max_file_uploads: "20"
+# ; Fopen wrappers ;
+php_allow_url_fopen: "On"
+# ; Module Settings ;
+php_session_save_handler: files
+php_session_save_path: "/var/lib/php/sessions"
+php_session_cookie_lifetime: 0
+php_session_gc_probability: 1
+php_session_gc_divisor: 1000
+php_session_gc_maxlifetime: 1440

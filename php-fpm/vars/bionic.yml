@@ -1,0 +1,23 @@
+---
+__php_packages:
+    - php{{ php_default_version }}-common
+    - php{{ php_default_version }}-fpm
+    - php{{ php_default_version }}-json
+    - php{{ php_default_version }}-opcache
+    - php{{ php_default_version }}-mysql
+    
+__php_webserver_daemon: "nginx"
+
+# Vendor-specific configuration paths on Debian/Ubuntu make my brain asplode.
+__php_conf_paths: "/etc/php/{{ php_default_version }}/fpm"
+
+__php_extension_conf_path: "/etc/php/{{ php_default_version }}/fpm/conf.d"
+
+__php_opcache_conf_filename: 10-opcache.ini
+__php_fpm_daemon: php{{ php_default_version }}-fpm
+__php_fpm_conf_path: "/etc/php/{{ php_default_version }}/fpm"
+__php_fpm_pool_conf_path: "{{ __php_fpm_conf_path }}/pool.d/www.conf"
+
+__php_fpm_pool_user: www-data
+__php_fpm_pool_group: www-data
+__php_fpm_pool_listen: /run/php/php{{ php_default_version }}-fpm.sock

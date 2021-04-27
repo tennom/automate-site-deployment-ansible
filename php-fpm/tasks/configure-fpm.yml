@@ -1,0 +1,41 @@
+---
+- name: Define php_fpm_daemon.
+  set_fact:
+    php_fpm_daemon: "{{ __php_fpm_daemon }}"
+  when: php_fpm_daemon is not defined
+
+- name: Define php_fpm_pool_conf_path.
+  set_fact:
+    php_fpm_pool_conf_path: "{{ __php_fpm_pool_conf_path }}"
+  when: php_fpm_pool_conf_path is not defined
+
+- name: Define php_fpm_pool_user.
+  set_fact:
+    php_fpm_pool_user: "{{ __php_fpm_pool_user }}"
+  when: php_fpm_pool_user is not defined
+
+- name: Define php_fpm_pool_group.
+  set_fact:
+    php_fpm_pool_group: "{{ __php_fpm_pool_group }}"
+  when: php_fpm_pool_group is not defined
+ 
+- name: Define php_fpm_pool_listen.
+  set_fact:
+    php_fpm_pool_listen: "{{ __php_fpm_pool_listen }}"
+  when: php_fpm_pool_listen is not defined
+
+- name: Ensure the default pool exists.
+  template:
+    src: www.conf.j2
+    dest: "{{ php_fpm_pool_conf_path }}"
+    owner: root
+    group: root
+    mode: 0644
+  when: php_fpm_custom_pool
+
+- name: Ensure php-fpm is started and enabled at boot (if configured).
+  service:
+    name: "{{ php_fpm_daemon }}"
+    state: started
+    enabled: "{{ php_fpm_enabled_at_boot }}"
+  when: php_fpm_custom_pool

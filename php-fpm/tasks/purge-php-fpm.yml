@@ -1,0 +1,8 @@
+---
+- name: Ensure PHP packages are purged.
+  apt:
+    name: "{{ php_packages }}"
+    state: absent
+    purge: yes
+  tags:
+    - purge

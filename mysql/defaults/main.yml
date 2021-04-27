@@ -1,0 +1,107 @@
+---
+import_existing_databases: true
+import_db_name : lessons
+# mysql version 
+mysql_version: "5.7"
+
+# mysql configuration directories to be included in the global my.cnf
+# this will override settings in global
+mysqld_config_dir: /etc/mysql/mysql.conf.d/
+mysql_config_include_dirs:
+  - /etc/mysql/conf.d/
+  - "{{ mysqld_config_dir }}"  
+
+# Set this to the user ansible is logging in as - should have root
+# or sudo access
+mysql_user_home: /root
+mysql_user_name: root
+mysql_user_password: fakepassword
+
+# The default root user installed by mysql - almost always root
+mysql_root_home: /root
+mysql_root_username: root
+mysql_root_password: fakepassword
+
+# Set this to `true` to forcibly update the root password.
+mysql_root_password_update: false
+mysql_user_password_update: false
+
+mysql_enabled_on_startup: true
+
+# Whether my.cnf should be updated on every run.
+overwrite_global_mycnf: true
+
+# Define a custom list of packages to install; if none provided, the default
+# package list from vars/[OS-family].yml will be used.
+# mysql_packages:
+#   - mysql-server-5.7
+#   - MySQL-python
+
+# MySQL connection settings.
+mysql_port: "3306"
+mysql_bind_address: '127.0.0.1'
+mysql_skip_name_resolve: true
+mysql_datadir: /var/lib/mysql
+mysql_sql_mode: ''
+
+# Log file settings.
+mysql_log_file_group: mysql
+
+# Slow query log settings.
+mysql_slow_query_log_enabled: true
+mysql_slow_query_time: "2"
+
+# Memory settings for myisam storage (default values optimized ~512MB RAM).
+mysql_key_buffer_size: "256M"
+mysql_max_allowed_packet: "64M"
+
+mysql_table_open_cache: "256"
+mysql_sort_buffer_size: "1M"
+mysql_read_buffer_size: "1M"
+mysql_read_rnd_buffer_size: "4M"
+mysql_myisam_sort_buffer_size: "64M"
+mysql_thread_cache_size: "8"
+mysql_query_cache_type: "0"
+mysql_query_cache_size: "16M"
+mysql_query_cache_limit: "1M"
+mysql_max_connections: "151"
+mysql_tmp_table_size: "16M"
+mysql_max_heap_table_size: "16M"
+mysql_join_buffer_size: "262144"
+
+# Other settings.
+# mysql_lower_case_table_names: "0"
+mysql_wait_timeout: "28800"
+# mysql_event_scheduler_state: "OFF"
+
+# InnoDB settings.
+mysql_innodb_file_per_table: "1"
+# Set .._buffer_pool_size up to 80% of RAM but beware of setting too high.
+mysql_innodb_buffer_pool_size: "256M"
+# Set .._log_file_size to 25% of buffer pool size.
+mysql_innodb_log_file_size: "64M"
+mysql_innodb_log_buffer_size: "8M"
+mysql_innodb_flush_log_at_trx_commit: "1"
+mysql_innodb_lock_wait_timeout: "50"
+
+# These settings require MySQL > 5.5.
+mysql_innodb_large_prefix: "1"
+mysql_innodb_file_format: "barracuda"
+
+# mysqldump settings.
+# mysql_mysqldump_max_allowed_packet: "64M"
+
+# Logging settings.
+mysql_log: ""
+
+# Databases.
+mysql_databases:
+  - name: "{{ import_db_name }}"
+    collation: utf8mb4_general_ci
+    encoding: utf8mb4
+
+# Users.
+mysql_users:
+  - name: fakeuser
+    password: fakepass
+    priv: "{{ import_db_name }}.*:ALL,GRANT"

@@ -1,0 +1,4 @@
+---
+# update apt cache to latest with cache valid of 1 day
+- name: update apt
+  apt: update_cache=yes cache_valid_time=86400

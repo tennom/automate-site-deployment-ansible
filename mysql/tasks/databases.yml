@@ -1,0 +1,24 @@
+---
+- name: Ensure MySQL databases are present.
+  mysql_db:
+    name: "{{ item.name }}"
+    collation: "{{ item.collation | default('utf8_general_ci') }}"
+    encoding: "{{ item.encoding | default('utf8') }}"
+    state: "{{ item.state | default('present') }}"
+  with_items: "{{ mysql_databases }}"
+  when: import_existing_databases
+
+# create a task for importing existing databases.
+- name: Copy database sql backup file
+  copy:
+    src: "{{ import_db_name }}.sql"
+    dest: /tmp
+  when: import_existing_databases  
+
+- name: Import backup file
+  mysql_db:
+    state: import
+    name: "{{ import_db_name }}"
+    target: /tmp/{{ import_db_name }}.sql
+  when: import_existing_databases
+  notify: restart mysql

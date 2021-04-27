@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  remote_user: root
+  connection: local
+  become: yes
+  check_mode: yes
+  roles:
+    - commonrole
